@@ -1,0 +1,224 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  font-family: sans-serif;
+}
+
+/* ── Root layout: header + body stacked vertically ── */
+.app-root {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* ── App Header ── full width, 56px */
+.app-header {
+  flex: 0 0 56px;
+  background: #1e2028;
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+
+/* ── Below header: nav-pane + content-zone side by side ── */
+.app-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ── Nav Pane ── ~268px, never shrinks */
+.nav-pane {
+  flex: 0 0 268px;
+  background: #2e3355;
+  overflow-y: auto;
+}
+
+/* ── Content zone: everything to the right of the nav ── */
+.content-zone {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ── Page Title bar ── 56px */
+.page-title {
+  flex: 0 0 56px;
+  background: #3d3048;
+}
+
+/* ── Middle row: sub-nav + scrollable content area ── */
+.middle-row {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ── Sub-nav Pane ── 312px ── */
+.sub-nav-pane {
+  flex: 0 0 312px;
+  background: #2b3d38;
+  overflow-y: auto;
+}
+
+/* ── Content + Anchor area ── fills remaining space, centers the pair ── */
+.content-anchor-area {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  overflow: auto;
+  background: #1c2128;
+  padding: 0;
+}
+
+/* ── Wrapper holds content block + anchor side by side ── */
+.content-anchor-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 40px;
+  width: 100%;
+  min-height: 100%;
+  max-width: calc(800px + 40px + 300px); /* content max + gap + anchor max */
+  justify-content: center;
+}
+
+/* ── Page Content ── min 600px / max 800px, fills height ── */
+.page-content {
+  flex: 1 1 600px;
+  min-width: 600px;
+  max-width: 800px;
+  align-self: stretch;
+  background: #2a4a55;
+}
+
+/* ── Anchor ── hugs content, max 300px ── */
+.anchor {
+  flex: 0 1 300px;
+  max-width: 300px;
+  background: #3d7080;
+  /* "hug" — height driven by content; placeholder height below */
+  height: 120px;
+}
+
+/* ── Page Bottom Bar ── 56px, inside content-zone ── */
+.page-bottom-bar {
+  flex: 0 0 56px;
+  background: #1e2d48;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 16px;
+  gap: 8px;
+}
+
+/* ── Placeholder labels ── */
+[data-label] {
+  position: relative;
+}
+.region-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase;
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+}
+
+/* ── Header images ── */
+.header-logo,
+.header-profile {
+  width: 64px;
+  height: 56px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.debug-trigger {
+  margin-left: auto;
+}
+
+/* ── Debug trigger & dropdown ── */
+.debug-trigger {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.debug-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  min-width: 260px;
+  background: #2a2d38;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 6px;
+  padding: 12px 16px;
+  z-index: 100;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+
+.debug-dropdown.open {
+  display: block;
+}
+
+.debug-title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  margin-bottom: 10px;
+}
+
+.debug-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.75);
+  cursor: pointer;
+  user-select: none;
+}
+
+.debug-option input[type="checkbox"] {
+  accent-color: #3d7080;
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+}
+
+/* ── Debug: nav collapsed state ── */
+.nav-pane.nav-collapsed {
+  flex-basis: 56px;
+  transition: flex-basis 0.2s ease;
+}
+
+/* ── Bottom-bar buttons (decorative) ── */
+.btn {
+  height: 28px;
+  padding: 0 14px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 12px;
+}
+.btn-ghost  { background: rgba(255,255,255,0.1); color: #fff; }
+.btn-accent { background: #3d7080; color: #fff; }

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Layout Test</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="app-root">
+
+  <header class="app-header" data-label="app-header">
+    <img src="assets/Logo.png" alt="Logo" class="header-logo">
+    <span class="region-label"></span>
+    <div class="debug-trigger">
+      <img src="assets/Profile.png" alt="Profile" class="header-profile">
+      <div class="debug-dropdown" id="debugDropdown">
+        <p class="debug-title">Debug</p>
+        <label class="debug-option">
+          <input type="checkbox" id="collapseNavOnMinContent">
+          Collapse nav to 56px at min content width
+        </label>
+      </div>
+    </div>
+  </header>
+
+  <div class="app-body">
+
+    <nav class="nav-pane" data-label="nav-pane"><span class="region-label"></span></nav>
+
+    <div class="content-zone">
+
+      <div class="page-title" data-label="page-title"><span class="region-label"></span></div>
+
+      <div class="middle-row">
+
+        <aside class="sub-nav-pane" data-label="sub-nav"><span class="region-label"></span></aside>
+
+        <div class="content-anchor-area">
+          <div class="content-anchor-wrapper">
+            <main class="page-content" data-label="page-content"><span class="region-label"></span></main>
+            <aside class="anchor" data-label="anchor"><span class="region-label"></span></aside>
+          </div>
+        </div>
+
+      </div><!-- .middle-row -->
+
+      <footer class="page-bottom-bar">
+        <button class="btn btn-ghost">Cancel</button>
+        <button class="btn btn-accent">Apply</button>
+      </footer>
+
+    </div><!-- .content-zone -->
+
+  </div><!-- .app-body -->
+
+</div><!-- .app-root -->
+
+<script>
+  // ── Region labels ──
+  const ro = new ResizeObserver(entries => {
+    for (const entry of entries) {
+      const el = entry.target;
+      const label = el.querySelector('.region-label');
+      if (!label) continue;
+      const w = Math.round(entry.contentRect.width);
+      const h = Math.round(entry.contentRect.height);
+      const name = el.dataset.label;
+      label.innerHTML = `<span>${name}</span><span>${w} × ${h} px</span>`;
+    }
+  });
+
+  document.querySelectorAll('[data-label]').forEach(el => ro.observe(el));
+
+  // ── Debug dropdown ──
+  const trigger   = document.querySelector('.debug-trigger');
+  const dropdown  = document.getElementById('debugDropdown');
+
+  trigger.addEventListener('click', e => {
+    e.stopPropagation();
+    dropdown.classList.toggle('open');
+  });
+
+  document.addEventListener('click', () => dropdown.classList.remove('open'));
+
+  // ── Debug: collapse nav to 56px when page-content hits min width ──
+  const collapseToggle = document.getElementById('collapseNavOnMinContent');
+  const navPane        = document.querySelector('.nav-pane');
+  const pageContent    = document.querySelector('.page-content');
+
+  const contentRo = new ResizeObserver(([entry]) => {
+    if (!collapseToggle.checked) return;
+    const w = Math.round(entry.contentRect.width);
+    navPane.classList.toggle('nav-collapsed', w <= 600);
+  });
+
+  contentRo.observe(pageContent);
+</script>
+
+</body>
+</html>
